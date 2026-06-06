@@ -157,7 +157,18 @@ server.on("request", function(req, res) {
             res.end(data);
         });
     }
+    else if (req.url.startsWith("/js/")) {
+    fs.readFile("." + req.url, function(err, data) {
+        if (err) {
+            res.writeHead(404);
+            res.end("JavaScript file not found");
+            return;
+        }
 
+        res.writeHead(200, {"Content-Type": "text/javascript"});
+        res.end(data);
+    });
+}
     else {
         res.writeHead(404, {"Content-Type": "text/plain"});
         res.end("Page not found.");
